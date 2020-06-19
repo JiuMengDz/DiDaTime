@@ -26,6 +26,10 @@
 			}
 		]
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JiuMengDz/DiDaTime.git"
+	},
 	"scripts": {
 		"lint": "eslint .",
 		"pretest": "npm run lint",
