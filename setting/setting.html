@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h1>DIDA TIME SETTING | 滴答时间设置</h1>
+    <table id="table">
+        <tr>
+            <td>name</td>
+            <td>content</td>
+            <td>899</td>
+            <td>true</td>
+            <td><button onclick="add_timer()">X</button></td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>content</td>
+            <td>899</td>
+            <td>true</td>
+            <td><button onclick="add_timer()">X</button></td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>content</td>
+            <td>899</td>
+            <td>true</td>
+            <td><button onclick="add_timer()">X</button></td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>content</td>
+            <td>899</td>
+            <td>true</td>
+            <td><button onclick="add_timer()">X</button></td>
+        </tr>
+        <tr>
+            <td><input id="timer_name" type="text"></td>
+            <td><input id="content" type="text"></td>
+            <td><input id="time" type="number" value="5">秒</td>
+            <td>
+                <input type="radio" name="is_loop" value="true" checked="true">Ture
+                <input type="radio" name="is_loop" value="false">Flase
+            </td>
+            <td><button>ADD</button></td>
+        </tr>
+    </table>
+    <button>clear</button>
+
+    <script>
+        // const vscode = acquireVsCodeApi();
+        let is_lock = false
+        let timer_content = document.querySelector("#table")
+
+        function init_page() {
+            window.addEventListener("message", e => {
+                let data = e.data
+                if (data.command == "finish") {
+                    is_lock = false
+                }
+            })
+        }
+
+        function add_timer() {
+            console.log(timer_content)
+            let ele = document.createElement("tr")
+            ele.innerHTML = "dwadaw"
+            timer_content.appendChild(ele)
+        }
+    </script>
+</body>
+
+</html>

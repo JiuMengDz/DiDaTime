@@ -5,7 +5,7 @@
 	"publisher": "JiuMengDZ",
 	"version": "0.0.1",
 	"engines": {
-		"vscode": "^1.0.0"
+		"vscode": "^1.23.0"
 	},
 	"categories": [
 		"Other"
@@ -23,6 +23,10 @@
 			{
 				"command": "DiDa.remove_time",
 				"title": "DiDa:Delete Time"
+			},
+			{
+				"command": "DiDa.open_setting_page",
+				"title": "DiDa:Open Setting Page"
 			}
 		]
 	},
@@ -35,5 +39,10 @@
 		"pretest": "npm run lint",
 		"test": "node ./test/runTest.js"
 	},
-	"devDependencies": {}
+	"devDependencies": {
+		"eslint": "^6.8.0"
+	},
+	"dependencies": {
+		"fs": "0.0.1-security"
+	}
 }

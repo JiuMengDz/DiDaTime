@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const fs = require('fs');
 const TimerManager = require('./timerManager').TimerManager;
 
 let name_input_options = {
@@ -55,9 +56,23 @@ function activate(context) {
 			})
 		})
 	});
+
+	let setting_html_path = context.extensionPath + "/setting/setting.html"
+	let html = fs.readFileSync(setting_html_path)
+	let panel = vscode.window.createWebviewPanel("DiDa Time Setting", "DiDa Time Setting", vscode.ViewColumn.One, {
+		enableScripts: true,
+	})
+	panel.webview.html = html.toString()
+	let disposable3 = vscode.commands.registerCommand("DiDa.open_setting_page", function(){
+		let panel = vscode.window.createWebviewPanel("DiDa Time Setting", "DiDa Time Setting", vscode.ViewColumn.One, {
+			enableScripts: true,
+		})
+		panel.webview.html = html.toString()
+	})
 	
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(disposable2);
+	context.subscriptions.push(disposable3);
 }
 exports.activate = activate;
 
