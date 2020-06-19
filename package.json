@@ -1,0 +1,36 @@
+{
+	"name": "dida-time",
+	"displayName": "Dida Time",
+	"description": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.46.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "DiDa.start_new_time",
+				"title": "DiDa:New Time"
+			},
+			{
+				"command": "DiDa.remove_time",
+				"title": "DiDa:Delete Time"
+			}
+		]
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.46.0"
+	}
+}
