@@ -49,6 +49,7 @@ function activate(context) {
 		if(strs.length <= 0) return
 
 		vscode.window.showQuickPick(strs, {canPickMany:true}).then((names)=>{
+			if(!names) return
 			names.forEach((name)=>{
 				timerManager.removeTimer(name)
 			})
