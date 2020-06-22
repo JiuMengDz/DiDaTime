@@ -22,6 +22,15 @@ let setting_web_panel = null
  */
 function activate(context) {
 	let timerManager = new TimerManager();
+	timerManager.setRemoveTimeHandler((t_id)=>{
+		if(setting_web_panel){
+			setting_web_panel.webview.postMessage({
+				command: "remove_timer",
+				id: t_id,
+			})
+		}
+	})
+
 	let disposable = vscode.commands.registerCommand('DiDa.start_new_time', function () {
 		vscode.window.showInputBox(name_input_options).then((name)=>{
 			if(name == null || name == "") return
@@ -73,6 +82,10 @@ function activate(context) {
 		const columnToShowIn = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
 		if(setting_web_panel != null){
 			setting_web_panel.reveal(columnToShowIn)
+			setting_web_panel.webview.postMessage({
+				command: "set_data",
+				d: timerManager.getTimersData()
+			})
 			return
 		}
 		
@@ -93,11 +106,15 @@ function activate(context) {
 			switch(e.command){
 				case "remove_timer":
 					timerManager.removeTimerById(e.id)
+					break
+				case "add_timer":
+					var timer_data = timerManager.addTimer(e.t_name, e.t_content, e.t_time, e.t_is_loop);
 					setting_web_panel.webview.postMessage({
-						command: "remove_timer",
-						id: e.id,
+						command: "add_timer",
+						new_timer: timer_data
 					})
 					break
+				default:
 			}
 		})
 		

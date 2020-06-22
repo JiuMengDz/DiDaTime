@@ -1,5 +1,11 @@
 const body_container = document.querySelector("body")
 const tb_container = document.querySelector("table")
+
+const input_name = document.getElementById("timer_name")
+const input_content = document.getElementById("timer_content")
+const input_time = document.getElementById("time")
+const input_is_loop = document.getElementsByName("is_loop")
+
 // @ts-ignore
 const vscode = acquireVsCodeApi()
 
@@ -74,6 +80,34 @@ function RemoveTimer(id){
 function remove(id){
     var node = document.querySelector("#timer" + id)
     node.remove()
+}
+
+function AddTimer(){
+    let name = input_name.value
+    let content = input_content.value
+    let time = input_time.value
+
+    let selected = false
+    for (let index = 0; index < input_is_loop.length; index++) {
+        const element = input_is_loop[index];
+        if(element.checked){
+            selected = element.value
+            break
+        }
+    }
+    
+    if(name == "" || content == "" || time == "" || Number.parseInt(time) <= 2){
+        return
+    }
+
+
+    vscode.postMessage({
+        command: "add_timer",
+        t_name: name,
+        t_content: content,
+        t_time: Number.parseFloat(time),
+        t_is_loop: selected == "false" ? false : true,
+    })
 }
 
 init_page()

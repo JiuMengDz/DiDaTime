@@ -63,7 +63,7 @@ class TimerManager {
         }
 
         if(!time_handler.is_loop){
-            this.removeTimer(time_handler.name)
+            this.removeTimerById(time_handler.id)
         }
     }
 
@@ -78,6 +78,10 @@ class TimerManager {
             clearInterval(time_handle.timer)
             delete this.timers[id]
             delete this.name2id[time_handle.name]
+
+            if(this.remove_cb){
+                this.remove_cb(id)
+            }
         }
     }
 
@@ -107,6 +111,10 @@ class TimerManager {
             }
         }
         return data
+    }
+
+    setRemoveTimeHandler(cb){
+        this.remove_cb = cb
     }
 }
 
