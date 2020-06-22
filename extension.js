@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const fs = require('fs');
+const { time } = require('console');
 const TimerManager = require('./timerManager').TimerManager;
 
 let name_input_options = {
@@ -13,6 +14,8 @@ let content_input_options = {
 let daley_input_options = {
 	prompt : "enter your daley",
 }
+
+let setting_web_panel = null
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -33,10 +36,18 @@ function activate(context) {
 					}
 					vscode.window.showQuickPick(["true", "false"]).then((str)=>{
 						if(name == null) return
+						var timer_data
 						if(str == "true"){
-							timerManager.addTimer(name, content, da, true);
+							timer_data = timerManager.addTimer(name, content, da, true);
 						}else{
-							timerManager.addTimer(name, content, da, false);
+							timer_data = timerManager.addTimer(name, content, da, false);
+						}
+
+						if(setting_web_panel){
+							setting_web_panel.webview.postMessage({
+								command: "add_timer",
+								new_timer: timer_data
+							})
 						}
 					})
 				})
@@ -46,7 +57,6 @@ function activate(context) {
 
 	let disposable2 = vscode.commands.registerCommand('DiDa.remove_time', function () {
 		var strs = timerManager.getAllTimeName()
-		console.log(strs)
 		if(strs.length <= 0) return
 
 		vscode.window.showQuickPick(strs, {canPickMany:true}).then((names)=>{
@@ -59,15 +69,41 @@ function activate(context) {
 
 	let setting_html_path = context.extensionPath + "/setting/setting.html"
 	let html = fs.readFileSync(setting_html_path)
-	let panel = vscode.window.createWebviewPanel("DiDa Time Setting", "DiDa Time Setting", vscode.ViewColumn.One, {
-		enableScripts: true,
-	})
-	panel.webview.html = html.toString()
 	let disposable3 = vscode.commands.registerCommand("DiDa.open_setting_page", function(){
-		let panel = vscode.window.createWebviewPanel("DiDa Time Setting", "DiDa Time Setting", vscode.ViewColumn.One, {
+		const columnToShowIn = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
+		if(setting_web_panel != null){
+			setting_web_panel.reveal(columnToShowIn)
+			return
+		}
+		
+		setting_web_panel = vscode.window.createWebviewPanel("DiDa Time Setting", "DiDa Time Setting", columnToShowIn, {
 			enableScripts: true,
 		})
-		panel.webview.html = html.toString()
+		
+		let js_path = setting_web_panel.webview.asWebviewUri(vscode.Uri.file(context.extensionPath + "/setting/setting.js"))
+		let row_html = html.toString().replace("$$script", js_path.toString())
+		setting_web_panel.webview.html = row_html
+		
+		setting_web_panel.webview.postMessage({
+			command: "set_data",
+			d: timerManager.getTimersData()
+		})
+
+		setting_web_panel.webview.onDidReceiveMessage((e)=>{
+			switch(e.command){
+				case "remove_timer":
+					timerManager.removeTimerById(e.id)
+					setting_web_panel.webview.postMessage({
+						command: "remove_timer",
+						id: e.id,
+					})
+					break
+			}
+		})
+		
+		setting_web_panel.onDidDispose(function(){
+			setting_web_panel = null
+		}, null, context.subscriptions)
 	})
 	
 	context.subscriptions.push(disposable);

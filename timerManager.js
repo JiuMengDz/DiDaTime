@@ -1,4 +1,5 @@
 const { window } = require("vscode")
+let _instance = null
 
 Object.defineProperty(exports, "__esModule", {value: true});
 class TimerManager {
@@ -6,6 +7,13 @@ class TimerManager {
         this.timers = {}
         this.name2id = {}
         this.count = 0
+        if(!_instance){
+            _instance = this
+        }else{
+            this.timers = _instance.timers
+            this.name2id = _instance.name2id
+            this.count = _instance.count
+        }
     }
 
     /**
@@ -28,10 +36,19 @@ class TimerManager {
         time_handler.name = timer_name
         time_handler.content = content
         time_handler.is_loop = is_loop
+        time_handler.daley = daley
         time_handler.timer = timer
 
         this.timers[count] = time_handler
         this.name2id[timer_name] = count
+
+        return {
+            id: time_handler.id,
+            name: time_handler.name,
+            content: time_handler.content,
+            is_loop: time_handler.is_loop,
+            daley: time_handler.daley,
+        }
     }
 
     /**
@@ -52,11 +69,15 @@ class TimerManager {
 
     removeTimer(timer_name){
         var id = this.name2id[timer_name]
+        this.removeTimerById(id)
+    }
+
+    removeTimerById(id){
         var time_handle = this.timers[id]
         if(time_handle){
             clearInterval(time_handle.timer)
             delete this.timers[id]
-            delete this.name2id[timer_name]
+            delete this.name2id[time_handle.name]
         }
     }
 
@@ -69,6 +90,23 @@ class TimerManager {
             }
         }
         return strs
+    }
+
+    getTimersData(){
+        var data = []
+        for (const key in this.timers) {
+            if (this.timers.hasOwnProperty(key)) {
+                const element = this.timers[key];
+                var d = {}
+                d.id = element.id
+                d.name = element.name
+                d.content = element.content
+                d.is_loop = element.is_loop
+                d.daley = element.daley
+                data.push(d)
+            }
+        }
+        return data
     }
 }
 
