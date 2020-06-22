@@ -1,6 +1,5 @@
 const vscode = require('vscode');
 const fs = require('fs');
-const { time } = require('console');
 const TimerManager = require('./timerManager').TimerManager;
 
 let name_input_options = {
@@ -82,10 +81,6 @@ function activate(context) {
 		const columnToShowIn = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
 		if(setting_web_panel != null){
 			setting_web_panel.reveal(columnToShowIn)
-			setting_web_panel.webview.postMessage({
-				command: "set_data",
-				d: timerManager.getTimersData()
-			})
 			return
 		}
 		
@@ -116,6 +111,13 @@ function activate(context) {
 					break
 				default:
 			}
+		})
+
+		setting_web_panel.onDidChangeViewState(()=>{
+			setting_web_panel.webview.postMessage({
+				command: "set_data",
+				d: timerManager.getTimersData()
+			})
 		})
 		
 		setting_web_panel.onDidDispose(function(){

@@ -14,7 +14,7 @@ function init_page(){
         let data = event.data;
         switch (data.command) {
             case "set_data":
-                console.log(data)
+                tb_container.innerHTML = ""
                 update_page(data.d)
                 break;
             case "update":
@@ -105,7 +105,7 @@ function AddTimer(){
         command: "add_timer",
         t_name: name,
         t_content: content,
-        t_time: Number.parseFloat(time),
+        t_time: Number.parseFloat(time) * 1000,
         t_is_loop: selected == "false" ? false : true,
     })
 }
