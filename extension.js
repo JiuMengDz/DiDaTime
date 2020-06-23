@@ -109,6 +109,14 @@ function activate(context) {
 						new_timer: timer_data
 					})
 					break
+				case "clear_timer":
+					timerManager.clearAllTimers(()=>{
+						setting_web_panel.webview.postMessage({
+							command: "set_data",
+							d: timerManager.getTimersData()
+						})
+					})
+					break
 				default:
 			}
 		})

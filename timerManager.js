@@ -85,6 +85,22 @@ class TimerManager {
         }
     }
 
+    clearAllTimers(cb){
+        for (const key in this.timers) {
+            if (this.timers.hasOwnProperty(key)) {
+                const element = this.timers[key];
+                clearInterval(element.timer)
+            }
+        }
+
+        this.timers = {}
+        this.name2id = {}
+
+        if(cb){
+            cb()
+        }
+    }
+
     getAllTimeName(){
         var strs = []
         for (const str in this.timers) {

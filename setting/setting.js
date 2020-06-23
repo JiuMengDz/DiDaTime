@@ -17,9 +17,6 @@ function init_page(){
                 tb_container.innerHTML = ""
                 update_page(data.d)
                 break;
-            case "update":
-                console.log(data)
-                break;
             case "add_timer":
                 AppendNewTimer(data.new_timer)
                 break;
@@ -52,6 +49,7 @@ function getTimeElement(id, name, content, daley, is_loop){
     var td = getTdElement('')
     var btn = document.createElement("button")
     btn.innerText = "X"
+    btn.id = "item_remove"
     td.appendChild(btn)
     btn.addEventListener('click', ()=>{
         RemoveTimer(id)
@@ -80,6 +78,12 @@ function RemoveTimer(id){
 function remove(id){
     var node = document.querySelector("#timer" + id)
     node.remove()
+}
+
+function ClearAll(){
+    vscode.postMessage({
+        command: "clear_timer",
+    })
 }
 
 function AddTimer(){

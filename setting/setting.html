@@ -5,24 +5,70 @@
     <meta charset="UTF-8">
     <link href="${style_path}" rel="stylesheet" />
     <style>
+        h1 {
+            color:goldenrod;
+            text-align: center;
+        }
+
+        tr {
+            background-color: goldenrod;
+        }
+
         td {
-            background-color: antiquewhite;
-            border-radius: 20pt;
-            color: black;
-            padding: 10pt;
-            margin: 5pt;
+            padding: 5pt;
+        }
+
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 12px;
+        }
+ 
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 12px;
+        }
+ 
+		table tr:first-child td:first-child {
+            border-top-left-radius: 12px;
+        }
+ 
+        table tr:first-child td:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        body {
+            background-color: #113275;
+        }
+
+        button#item_remove {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10pt;
         }
     </style>
 </head>
 
 <body>
     <h1>DIDA TIME SETTING | 滴答时间设置</h1>
-    <table id="table">
-        <tr>
+    <table id="table" rules=none>
+        <!-- <tr>
             <th>name</th>
             <th>content</th>
             <th>time</th>
             <th>is_loop</th>
+        </tr> -->
+        <tr>
+            <td>name</td>
+            <td>content</td>
+            <td>time</td>
+            <td>is_loop</td>
+            <td><button id="item_remove">X</button></td>
         </tr>
     </table>
     <tr>
@@ -35,7 +81,7 @@
         </td>
         <td><button onclick = "AddTimer()">ADD</button></td>
     </tr>
-    <button>clear</button>
+    <button onclick="ClearAll()">clear</button>
 
     <script>
         // const vscode = acquireVsCodeApi();
