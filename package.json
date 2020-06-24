@@ -3,7 +3,7 @@
 	"displayName": "DiDa Time",
 	"description": "",
 	"publisher": "JiuMengDZ",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"engines": {
 		"vscode": "^1.23.0"
 	},
