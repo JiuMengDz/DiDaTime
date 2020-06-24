@@ -1,5 +1,4 @@
-const body_container = document.querySelector("body")
-const tb_container = document.querySelector("table")
+const tb_container = document.querySelector(".timers_data")
 
 const input_name = document.getElementById("timer_name")
 const input_content = document.getElementById("timer_content")
@@ -40,22 +39,32 @@ function update_page(timers_data){
 }
 
 function getTimeElement(id, name, content, daley, is_loop){
-    var tr = document.createElement("tr")
-    tr.id = "timer" + id
-    tr.appendChild(getTdElement(name))
-    tr.appendChild(getTdElement(content))
-    tr.appendChild(getTdElement(daley))
-    tr.appendChild(getTdElement(is_loop))
-    var td = getTdElement('')
+    var d_item = document.createElement("div")
+    d_item.className = "timer_item"
+    d_item.id = "timer" + id
+    var name_item = document.createElement("div")
+    name_item.className = "timer_name"
+    name_item.innerText = name
+    var content_item = document.createElement("div")
+    content_item.className = "timer_content"
+    content_item.innerText = content
+    var d_btn = document.createElement("div")
+    d_btn.className = "btn_delete"
     var btn = document.createElement("button")
     btn.innerText = "X"
     btn.id = "item_remove"
-    td.appendChild(btn)
+    d_btn.appendChild(btn)
     btn.addEventListener('click', ()=>{
         RemoveTimer(id)
     })
-    tr.appendChild(td)
-    return tr
+    var daley_item = document.createElement("span")
+    daley_item.innerText = daley
+
+    d_item.appendChild(name_item)
+    d_item.appendChild(content_item)
+    d_item.appendChild(d_btn)
+    d_item.appendChild(daley_item)
+    return d_item
 }
 
 function AppendNewTimer(timer_data){

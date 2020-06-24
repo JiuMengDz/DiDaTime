@@ -6,7 +6,7 @@
     <link href="${style_path}" rel="stylesheet" />
     <style>
         h1 {
-            color:goldenrod;
+            color: goldenrod;
             text-align: center;
         }
 
@@ -21,22 +21,23 @@
         table tr:last-child td:first-child {
             border-bottom-left-radius: 12px;
         }
- 
+
         table tr:last-child td:last-child {
             border-bottom-right-radius: 12px;
         }
- 
-		table tr:first-child td:first-child {
+
+        table tr:first-child td:first-child {
             border-top-left-radius: 12px;
         }
- 
+
         table tr:first-child td:last-child {
             border-top-right-radius: 12px;
         }
 
         body {
-            background-color: #113275;
+            background-color: white;
         }
+
         button#item_remove {
             background-color: #eeeeee;
             background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eeeeee), color-stop(100%, #cccccc));
@@ -56,7 +57,9 @@
             padding: 8px 0;
             text-align: center;
             text-shadow: 0 1px 0 #eee;
-            width: 50px; }
+            width: 50px;
+        }
+
         button#item_remove:hover {
             background-color: #dddddd;
             background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #bbbbbb));
@@ -68,30 +71,88 @@
             border: 1px solid #bbb;
             border-bottom: 1px solid #999;
             cursor: pointer;
-            text-shadow: 0 1px 0 #ddd; }
+            text-shadow: 0 1px 0 #ddd;
+        }
+
         button#item_remove:active {
             border: 1px solid #aaa;
             border-bottom: 1px solid #888;
             -webkit-box-shadow: inset 0 0 5px 2px #aaaaaa, 0 1px 0 0 #eeeeee;
             -moz-box-shadow: inset 0 0 5px 2px #aaaaaa, 0 1px 0 0 #eeeeee;
-            box-shadow: inset 0 0 5px 2px #aaaaaa, 0 1px 0 0 #eeeeee; }
+            box-shadow: inset 0 0 5px 2px #aaaaaa, 0 1px 0 0 #eeeeee;
+        }
 
 
         .timers_data {
-            width: 1350px;
+            max-width: 90%;
+            margin: 0 auto;
         }
+
         .timer_item {
-            color: black;
-            background-color: blanchedalmond;
-            padding: 10px;
-            margin: 5px;
             display: inline-block;
+            color: black;
+            background-color: white;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .timer_name {
+            font-size: 25px;
+            font-weight: bolder;
+            text-align: left;
+        }
+
+        .timer_content {
+            text-align: left;
+            margin: 10px 0px;
+            font-size: 13px;
+        }
+
+        .btn_delete {
+            float: right;
+        }
+
+        .create_content {
+            text-align: center;
+            min-width: 900px;
+            clear: both;
+            padding: 0 50px;
+        }
+
+        .inp_name {
+            text-align: left;
+        }
+
+        .textarea_content {
+            width: auto;
+            height: auto;
         }
     </style>
 </head>
 
 <body>
     <h1>DIDA TIME SETTING | 滴答时间设置</h1>
+    <div style="text-align: center;">
+        <div class="timers_data">
+            <div class="timer_item">
+                <div class="timer_name">
+                    定时器名称
+                </div>
+                <div class="timer_content">
+                    定时器内容啊大武当安慰大武当安
+                    定时器内容啊大武当安慰大武当安
+                    定时器内容啊大武当安慰大武当安
+                    定时器内容啊大武当安慰大武当安
+                </div>
+                <div class="btn_delete">
+                    <button>delete</button>
+                </div>
+                <span>20秒</span>
+            </div>
+        </div>
+    </div>
     <table id="table" rules=none>
         <!-- <tr>
             <th>name</th>
@@ -100,53 +161,20 @@
             <th>is_loop</th>
         </tr> -->
     </table>
-    <!-- <div class="timers_data">
-        <div class="timer_item">
-            <p>dwadawdawd</p>
-            <p>dwadawdawd</p>
-            <p>dwadawdawd</p>
-            <p>dwadawdawd</p>
-            <p>dwadawdawd</p>
+    <div class="create_content">
+        <div class="inp_name">
+            <input id="timer_name" type="text">
         </div>
-        <div class="timer_item">
-            <p>dwadawdawd</p>
-            <p>dwadawdawd</p>
-            <p>dwadawdawd</p>
+        <div class="textarea_content">
+            <textarea name="" id="timer_content" cols="30" rows="10"></textarea>
         </div>
-    </div> -->
-    <tr>
-        <td><input id="timer_name" type="text"></td>
-        <td><textarea name="" id="timer_content" cols="30" rows="10"></textarea></td>
-        <td><input id="time" type="number" value="5">秒</td>
-        <td>
-            <input type="radio" name="is_loop" value="true" checked="true">Ture
-            <input type="radio" name="is_loop" value="false">Flase
-        </td>
-        <td><button onclick = "AddTimer()">ADD</button></td>
-    </tr>
-    <button onclick="ClearAll()">clear</button>
+        <input id="time" type="number" value="5">秒
+        <input type="radio" name="is_loop" value="true" checked="true">Ture
+        <input type="radio" name="is_loop" value="false">Flase
+        <button onclick="AddTimer()">ADD</button>
+        <button onclick="ClearAll()">clear</button>
+    </div>
 
-    <script>
-        // const vscode = acquireVsCodeApi();
-        let is_lock = false
-        let timer_content = document.querySelector("#table")
-
-        function init_page() {
-            window.addEventListener("message", e => {
-                let data = e.data
-                if (data.command == "finish") {
-                    is_lock = false
-                }
-            })
-        }
-
-        function add_timer() {
-            console.log(timer_content)
-            let ele = document.createElement("tr")
-            ele.innerHTML = "dwadaw"
-            timer_content.appendChild(ele)
-        }
-    </script>
     <script src="$$script"></script>
 </body>
 
