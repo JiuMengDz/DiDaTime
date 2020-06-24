@@ -59,7 +59,15 @@ class TimerManager {
 
         var content = time_handler.content
         if(content){
-            window.showInformationMessage(content)
+            if(time_handler.is_loop){
+                window.showWarningMessage(content, "确定", "关闭通知").then((select)=>{
+                    if(select == "关闭通知"){
+                        this.removeTimerById(time_handler.id)
+                    }
+                })
+            }else{
+                window.showWarningMessage(content, "确定")
+            }
         }
 
         if(!time_handler.is_loop){
@@ -69,11 +77,15 @@ class TimerManager {
 
     removeTimer(timer_name){
         var id = this.name2id[timer_name]
+        if(!id) return
+
         this.removeTimerById(id)
     }
 
     removeTimerById(id){
         var time_handle = this.timers[id]
+        if(!time_handle) return
+
         if(time_handle){
             clearInterval(time_handle.timer)
             delete this.timers[id]
